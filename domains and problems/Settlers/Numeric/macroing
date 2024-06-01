@@ -1,0 +1,74 @@
+(build-quarry location0)
+(build-cabin location0)
+(fell-timber location0)
+(break-stone location0)
+(build-cart location0 vehicle0)
+(fell-timber location0)
+(load vehicle0 location0 stone)
+(fell-timber location0)
+(move-cart vehicle0 location0 location5)
+(build-sawmill location0)
+(fell-timber location0)
+(build-cart location0 vehicle3)
+(break-stone location0)
+(load vehicle3 location0 stone)
+(fell-timber location0)
+(move-cart vehicle3 location0 location1)
+(build-cart location0 vehicle4)
+(move-cart vehicle4 location0 location3)
+(fell-timber location0)
+(saw-wood location0)
+(fell-timber location0)
+(move-cart vehicle0 location0 location3)
+(move-cart vehicle2 location0 location3)
+(move-cart vehicle3 location0 location3)
+(load vehicle4 location0 stone)
+(load vehicle5 location0 wood)
+(break-stone location0)
+(saw-wood location0)
+(move-cart vehicle5 location0 location3)
+(load vehicle2 location0 wood)
+(load vehicle3 location0 stone)
+(move-cart vehicle4 location0 location3)
+(move-cart vehicle0 location0 location1)
+(move-cart vehicle1 location3 location0)
+(move-cart vehicle2 location0 location1)
+(move-cart vehicle3 location0 location1)
+
+
+load - move - unload  can't be because of load is oppositte of unload, conflict with '(decrease (available ?r ?v) 1)' in precond and effect.
+
+build-cabin - fell-timber
+build-quarry - break-stone
+build-mine - mine-ore
+build-coal-stack - burn-coal
+build-sawmill - saw-wood
+build-ironworks - make-iron
+
+build-docks - build-wharf
+
+
+fell-timber - build-cart  --- fell-timber - load - move - unload - build-cart
+make-iron - build-train  ---  make-iron -  load - move - unload - build-train
+make-iron - build-ship  ---  make-iron -  load - move - unload - build-ship
+
+
+
+
+
+
+
+
+
+(:action build-docks-build-wharf 
+   :parameters (?p - place) 
+   :precondition (and (by-coast ?p) 
+		      (>= (available stone ?p) 4) 
+		      (>= (available wood ?p) 2)
+              (>= (available iron ?p) 2)) 
+   :effect (and (decrease (available stone ?p) 4) 
+		(decrease (available wood ?p) 2)
+        (decrease (available iron ?p) 2)
+		(increase (labour) 4) 
+		(has-docks ?p)
+        (has-wharf ?p))) 
